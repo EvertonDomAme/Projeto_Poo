@@ -1,7 +1,67 @@
 # Proposta de projeto de ficção interativa para avaliação de OO
 # Sugestão: completar com classes filhas colocando pessoas saudáveis, trabalhos menos remunerados, casas melhor equipadas et cetera
 import random
+usuario = " "
+senha = " "
 
+
+class AcessoSeguro:
+    def __init__(self, usuario, senha):
+        self.__usuario = usuario
+        self.__senha = senha
+
+    @property
+    def usuario(self):
+        return self.__usuario
+
+    @property
+    def senha(self):
+        return self.__senha
+
+    @usuario.setter
+    def usuario(self, novoUsuario):
+        self.__usuario = novoUsuario
+        
+    @senha.setter
+    def senha(self,novaSenha):
+        self.__senha = novaSenha
+        
+
+usuario = input("Cadastre seu Usuário de acesso :")
+senha = input("Cadastre sua Senha de acesso :")
+
+print(f"""
+Estes são seus dados de acesso, memorize-os :
+Usuário : {usuario}
+Senha : {senha}
+""")
+while True:
+    alterar = int(input("""
+Alterar Usuário ou Senha:
+0 - Manter
+1 - Alterar Usuário
+2 - Alterar Senha
+""") )
+    if alterar not in (0,1,2) :
+        print("Opção inválida")   
+    elif alterar == 1 :
+        usuario = input("Informe seu novo Usuário de acesso : ")
+    elif alterar == 2 :
+        senha = input("Informe sua nova Senha de acesso : ")
+    else :     
+        break
+
+print("Informe Usuário e Senha para acesso.")
+
+usuarioA = input("Usuário : ")
+while usuarioA != usuario:
+    print("Usuário não encontrado!\nVerifique seu usuário de acesso e tente novamente.")
+    usuarioA = input("Informe seu usuário de acesso novamente\nUsuário : ")
+
+senhaA = input("Senha : ")
+while senhaA != senha :
+    print("Senha incorreta!\nVerifique sua senha de acesso e tente novamente!")
+    senhaA = input("Informe sua senha de acesso novamente!\nSenha : ")
 
 class Relogio:
     def __init__(self):
@@ -33,33 +93,34 @@ class Personagem:
         self.valorRemedios = 20
         self.valorComida = 15
 
-# class Garcon(Personagem):
-#     def __init__(self, nome):
-#         super().__init__(nome)
-#         #self.nome = nome#inclusão do parametro nome
-#         self.sujo = True
-#         self.fome = True
-#         self.medicado = False
-#         self.disposicao = False#inclusão de academia
-#         self.dinheiro = 0
-#         self.salario = 110
-#         self.valorRemedios = 20
-#         self.valorComida = 7
+class Garcon(Personagem):
+    def __init__(self, nome):
+        super().__init__(nome)
+        self.nome = nome#inclusão do parametro nome
+        self.sujo = True
+        self.fome = True
+        self.medicado = False
+        self.disposicao = False#inclusão de academia
+        self.dinheiro = 0
+        self.salario = 110
+        self.valorRemedios = 20
+        self.valorComida = 7
 
-# class Enfermeiro(Personagem):
-#     def __init__(self, nome):
-#         super().__init__(nome)
-#         self.sujo = True
-#         self.fome = True
-#         self.medicado = False
-#         self.disposicao = False#inclusão de academia
-#         self.dinheiro = 0
-#         self.salario = 110
-#         self.valorRemedios = 10
-#         self.valorComida = 15
+class Enfermeiro(Personagem):
+    def __init__(self, nome):
+        super().__init__(nome)
+        self.nome = nome
+        self.sujo = True
+        self.fome = True
+        self.medicado = False
+        self.disposicao = False#inclusão de academia
+        self.dinheiro = 0
+        self.salario = 110
+        self.valorRemedios = 10
+        self.valorComida = 15
 
     def __str__(self):
-        return  f"{self.nome} você está " + ("sujo" if self.sujo else "limpo")+", "+("com" if self.disposicao else "sem")+" disposição, "+("com" if self.fome else "sem")+" fome e "+("" if self.medicado else "não ")+"tomou sua medicação. Você tem "+str(self.dinheiro)+" reais na sua conta."
+        return  f"{self.nome} você está " + ("sujo(a)" if self.sujo else "limpo(a)")+", "+("com" if self.disposicao else "sem")+" disposição, "+("com" if self.fome else "sem")+" fome e "+("" if self.medicado else "não ")+"tomou sua medicação. Você tem "+str(self.dinheiro)+" reais na sua conta."
                     #inclusão de nome no print
     def dormir(self):
         self.sujo = True
@@ -76,26 +137,29 @@ if(__name__ == "__main__"):
     dia = 1
     relogio = Relogio()
     nome = input("Digite o nome do seu personagem :").title()#inclusão de nome ao personagem com entrada pelo usuário
-    # personagem = input("""
-    # Escolha como jogar(profissão definida ou não :
-    # 0 - Padrão
-    # 1 - Garçon
-    # 2 - Enfermeiro
-    # """)
-    # while personagem not in (0,1,2) :
-    #     print("Opção inválida, tente novamente")
-    #     personagem = input("""
-    # Escolha como jogar(profissão definida ou não :
-    # 0 - Padrão
-    # 1 - Garçon
-    # 2 - Enfermeiro
-    # """)        
-    # elif personagem == 0:
-    personagem = Personagem(nome)#inclusão de parametro nome
-    # elif personagem == 1:
-    #     personagem = Garcon(nome)
-    # else :
-    #     personagem = Enfermeiro(nome)
+    cargo = int(input("""
+    Escolha como jogar(profissão definida ou não :
+    0 - Padrão
+    1 - Garçon
+    2 - Enfermeiro
+    """))
+
+    if 0 > cargo > 2 :
+        print("Opção inválida, tente novamente")
+        cargo = int(input("""
+    Escolha como jogar(profissão definida ou não :
+    0 - Padrão
+    1 - Garçon
+    2 - Enfermeiro
+    """))
+
+        if cargo == 0:
+            personagem = Personagem(nome)#inclusão de parametro nome
+        elif cargo == 1:
+            personagem = Garcon(nome)
+        else :
+            personagem = Enfermeiro(nome)
+
     casa = Casa()
     cafe_da_manha = False
     
@@ -114,8 +178,9 @@ if(__name__ == "__main__"):
         print("7 - Ir para Academia")#inclusa ação de ir a academia
         print("8 - Ir trabalhar")
         print("0 - Sair do jogo")
+        
         opcao = input(f"{nome} escolha sua ação:")
-        if(opcao == "1"):
+        if(opcao == "1"):          
             personagem.sujo = False
             relogio.avancaTempo(20)
         elif(opcao == "2"):
@@ -162,12 +227,10 @@ if(__name__ == "__main__"):
                 personagem.sujo = True
                 personagem.dinheiro -= 30
                 relogio.avancaTempo(25)
-
             else :
                 print('-=-=-')
                 print(f"{nome}o dia na academia custa R$30,00,você não tem dinheiro... Hoje você não conseguiu ir a academia, se sentiria mais disposto e poderia render melhor no trabalho!!! Uma pena!!!")
                 relogio.avancaTempo(10)
-        
         elif(opcao == "8"):
             adversidade = random.randint(1,100)
             print(adversidade)
@@ -178,7 +241,7 @@ if(__name__ == "__main__"):
                 1 - Caminhar até o trabalho por 20 min.
                 2 - Solicitar um taxi, custo : R$25,00 e 05 min.
                 """)
-                escolha1 = input("O que fazer? (1 ou 2) :")
+                escolha1 = int(input("O que fazer? (1 ou 2) :"))
                 if 1 > escolha1 > 2 :
                     print("Opção inválida, tente novamente")
                 elif escolha1 == 1 :
@@ -197,7 +260,7 @@ if(__name__ == "__main__"):
                 1 - Ajudar o Sr. a se levantar.
                 2 - Passar sem ajudar e ir direto para o trabalho.
                 """)
-                escolha2 = input("O que fazer? (1 ou 2) :")
+                escolha2 = int(input("O que fazer? (1 ou 2) :"))
                 if 1 > escolha2 > 2 :
                     print("Opção inválida, tente novamente")
                 elif escolha2 == 1 :
@@ -215,7 +278,7 @@ if(__name__ == "__main__"):
                 1 - Ajudar a Senhora a atravessar a rua.
                 2 - Correr para bater o cartão.
                 """)
-                escolha3 = input("O que fazer? (1 ou 2) :")
+                escolha3 = int(input("O que fazer? (1 ou 2) :"))
                 if 1 > escolha3 > 2 :
                     print("Opção inválida, tente novamente")
                 elif escolha3 == 1 :
@@ -233,7 +296,7 @@ if(__name__ == "__main__"):
                 1 - Sim
                 2 - Não
                 """)
-                escolha4 = input("O que fazer? (1 ou 2) :")
+                escolha4 = int(input("O que fazer? (1 ou 2) :"))
                 if 1 > escolha4 > 2 :
                     print("Opção inválida, tente novamente")
                 elif escolha4 == 1 :
@@ -254,7 +317,7 @@ if(__name__ == "__main__"):
                 1 - Pegar o envelope e seguir seu caminho!
                 2 - Pegar o envelope e entregar ao rapaz no banco
                 """)
-                escolha5 = input("O que fazer? (1 ou 2) :")
+                escolha5 = int(input("O que fazer? (1 ou 2) :"))
                 if 1 > escolha5 > 2 :
                     print("Opção inválida, tente novamente")
                 elif escolha5 == 1 :
@@ -282,7 +345,7 @@ if(__name__ == "__main__"):
                     1 - Trabalhar normalmente e fingir que nada está acontecendo!
                     2 - Procurar por uma farmácia no caminho e comprar um medicamento!
                     """)
-                    escolha6 = input("O que fazer? (1 ou 2) :")
+                    escolha6 = int(input("O que fazer? (1 ou 2) :"))
                     if 1 > escolha6 > 2 :
                         print("Opção inválida, tente novamente")
                     elif escolha6 == 1 :
@@ -300,7 +363,7 @@ if(__name__ == "__main__"):
                 1 - Separar a briga dos cães.
                 2 - Seguir seu caminho.
                 """)
-                escolha7 = input("O que fazer? (1 ou 2) :")
+                escolha7 = int(input("O que fazer? (1 ou 2) :"))
                 if 1> escolha7 > 2 :
                     print("Opção inválida, tente novamente")
                 elif escolha7 == 1 :
@@ -334,7 +397,7 @@ if(__name__ == "__main__"):
                 1 - Vamos lá, quero me tornar Programador!
                 2 - Vamos lá, vou me tornar Programador!
                 """)
-                escolha8 = input("O que fazer? (1 ou 2) :")
+                escolha8 = int(input("O que fazer? (1 ou 2) :"))
                 if 1 > escolha8 > 2 :
                     print("Opção inválida, tente novamente")
                 elif escolha8 == 1 :
@@ -345,7 +408,7 @@ if(__name__ == "__main__"):
                     print('Você fez uma escolha maravilhosa... Vai mudar sua vida para melhor! Foco!')
             else:
                 print("-=-=-")
-                print(f"{nome}Você chegou ao trabalho.")
+                print(f"{nome}, você chegou ao trabalho.")
                 print(personagem)
                 print("-=-=-")
                 recebido = personagem.salario
