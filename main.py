@@ -1,47 +1,49 @@
 # Proposta de projeto de ficção interativa para avaliação de OO
 # Sugestão: completar com classes filhas colocando pessoas saudáveis, trabalhos menos remunerados, casas melhor equipadas et cetera
-import random
-usuario = " "
-senha = " "
+import random#Random inportado para implementação dos efeitos aleatórios
+usuario = " "#variável que vai registrar/receber os dados de cadastro de usuário
+senha = " "#variável que vai registrar/receber os dados de cadastro de senha
 
-
-class AcessoSeguro:
+class AcessoSeguro: #classe definida para registro de usuário e senha
     def __init__(self, usuario, senha):
         self.__usuario = usuario
         self.__senha = senha
 
-    @property
+    @property#método com encapsulamento para retornar dados de usuário
     def usuario(self):
         return self.__usuario
 
-    @property
+    @property#método com encapsulamento para retornar dados de senha
     def senha(self):
         return self.__senha
 
-    @usuario.setter
+    @usuario.setter#método com encapsulamento para alterar dados de usuário
     def usuario(self, novoUsuario):
         self.__usuario = novoUsuario
         
-    @senha.setter
+    @senha.setter#método com encapsulamento para alterar dados de senha
     def senha(self,novaSenha):
         self.__senha = novaSenha
         
 
-usuario = input("Cadastre seu Usuário de acesso :")
-senha = input("Cadastre sua Senha de acesso :")
+usuario = input("Cadastre seu Usuário de acesso :")#Entrada para cadastro de usuário
+senha =   input("Cadastre sua Senha de acesso :")#Entrada para cadastro de senha
 
+#informação dos dados cadastrados de usuário e senha
 print(f"""
 Estes são seus dados de acesso, memorize-os :
 Usuário : {usuario}
-Senha : {senha}
+Senha :   {senha}
 """)
-while True:
+
+while True:#Laço de repetição com input para, caso, o usuário queira alterar algum dado dos cadastros de usuário e senha
     alterar = int(input("""
-Alterar Usuário ou Senha:
-0 - Manter
-1 - Alterar Usuário
-2 - Alterar Senha
+    Alterar Usuário ou Senha:
+    0 - Manter
+    1 - Alterar Usuário
+    2 - Alterar Senha
 """) )
+#Condicionais que geram opção para poder ou não alterar usuário e ou senha
     if alterar not in (0,1,2) :
         print("Opção inválida")   
     elif alterar == 1 :
@@ -51,15 +53,15 @@ Alterar Usuário ou Senha:
     else :     
         break
 
-print("Informe Usuário e Senha para acesso.")
+print("Informe Usuário e Senha para acesso.")#Orientação ao usuário
 
-usuarioA = input("Usuário : ")
-while usuarioA != usuario:
+usuarioA = input("Usuário : ")#entrada para acesso com usuário
+while usuarioA != usuario:#Laço para validar usuário
     print("Usuário não encontrado!\nVerifique seu usuário de acesso e tente novamente.")
     usuarioA = input("Informe seu usuário de acesso novamente\nUsuário : ")
 
-senhaA = input("Senha : ")
-while senhaA != senha :
+senhaA = input("Senha : ")#entrada para acesso com senha
+while senhaA != senha :#laço para validar senha
     print("Senha incorreta!\nVerifique sua senha de acesso e tente novamente!")
     senhaA = input("Informe sua senha de acesso novamente!\nSenha : ")
 
@@ -90,34 +92,63 @@ class Personagem:
         self.disposicao = False#inclusão de academia
         self.dinheiro = 0
         self.salario = 100
-        self.valorRemedios = 20
-        self.valorComida = 15
+        self.valorRemedios = 20#Valor dos remédios que era definido, agora é atributo da classe Personagem
+        self.valorComida = 15#Valor da comida que era definido, agora é atributo da classe Personagem
+
+    @property#
+    def classe0(self):
+        return Personagem(nome)
+
+    def __str__(self):
+        return  f"{self.nome} você está " + ("sujo(a)" if self.sujo else "limpo(a)")+", "+("com" if self.disposicao else "sem")+" disposição, "+("com" if self.fome else "sem")+" fome e "+("" if self.medicado else "não ")+"tomou sua medicação. Você tem "+str(self.dinheiro)+" reais na sua conta."
+                    #inclusão de nome no print
+    def dormir(self):
+        self.sujo = True
+        self.fome = True
+        self.disposicao = False#inclusão de disposição relacionado a opçao de academia
+        self.medicado = False
 
 class Garcon(Personagem):
     def __init__(self, nome):
         super().__init__(nome)
-        self.nome = nome#inclusão do parametro nome
+        # self.nome = nome#inclusão do parametro nome
         self.sujo = True
         self.fome = True
         self.medicado = False
         self.disposicao = False#inclusão de academia
         self.dinheiro = 0
-        self.salario = 110
+        self.salario = 110#Salário de Garçom 10% maior
         self.valorRemedios = 20
-        self.valorComida = 7
+        self.valorComida = 7 #Garçon tem valor de comida reduzido
+
+    @property
+    def classe0(self):
+        return Garcon(nome)
+
+    def __str__(self):
+        return  f"{self.nome} você está " + ("sujo(a)" if self.sujo else "limpo(a)")+", "+("com" if self.disposicao else "sem")+" disposição, "+("com" if self.fome else "sem")+" fome e "+("" if self.medicado else "não ")+"tomou sua medicação. Você tem "+str(self.dinheiro)+" reais na sua conta."
+                    #inclusão de nome no print
+    def dormir(self):
+        self.sujo = True
+        self.fome = True
+        self.disposicao = False#inclusão de disposição relacionado a opçao de academia
+        self.medicado = False
 
 class Enfermeiro(Personagem):
     def __init__(self, nome):
         super().__init__(nome)
-        self.nome = nome
         self.sujo = True
         self.fome = True
         self.medicado = False
         self.disposicao = False#inclusão de academia
         self.dinheiro = 0
-        self.salario = 110
-        self.valorRemedios = 10
+        self.salario = 110#Salário de Enfermeior 10% maior
+        self.valorRemedios = 10#Enfermeiro tem vaor de remédio reduzido
         self.valorComida = 15
+
+    @property
+    def classe0(self):
+        return Enfermeiro(nome)
 
     def __str__(self):
         return  f"{self.nome} você está " + ("sujo(a)" if self.sujo else "limpo(a)")+", "+("com" if self.disposicao else "sem")+" disposição, "+("com" if self.fome else "sem")+" fome e "+("" if self.medicado else "não ")+"tomou sua medicação. Você tem "+str(self.dinheiro)+" reais na sua conta."
@@ -137,29 +168,32 @@ if(__name__ == "__main__"):
     dia = 1
     relogio = Relogio()
     nome = input("Digite o nome do seu personagem :").title()#inclusão de nome ao personagem com entrada pelo usuário
-    cargo = int(input("""
-    Escolha como jogar(profissão definida ou não :
-    0 - Padrão
-    1 - Garçon
-    2 - Enfermeiro
-    """))
-
-    if 0 > cargo > 2 :
-        print("Opção inválida, tente novamente")
-        cargo = int(input("""
-    Escolha como jogar(profissão definida ou não :
-    0 - Padrão
-    1 - Garçon
-    2 - Enfermeiro
-    """))
-
+    cargo = int(input(""" 
+                    Escolha como jogar(profissão definida ou não :
+                    0 - Padrão
+                    1 - Garçon
+                    2 - Enfermeiro
+                    """))
+    while True:
         if cargo == 0:
             personagem = Personagem(nome)#inclusão de parametro nome
+            break
         elif cargo == 1:
             personagem = Garcon(nome)
-        else :
+            break
+        elif cargo == 2:
             personagem = Enfermeiro(nome)
+            break
+        else:
+            print("Opção inválida, tente novamente")
+            cargo = int(input(""" 
+                    Escolha como jogar(profissão definida ou não :
+                    0 - Padrão
+                    1 - Garçon
+                    2 - Enfermeiro
+                    """))
 
+    #personagem = Personagem(nome)
     casa = Casa()
     cafe_da_manha = False
     
@@ -176,11 +210,14 @@ if(__name__ == "__main__"):
         print("5 - Tomar remédio")
         print("6 - Comprar remédio")
         print("7 - Ir para Academia")#inclusa ação de ir a academia
-        print("8 - Ir trabalhar")
+        print("8 - Ir trabalhar")#opção Ir Trabalhar passa a ser a opção 8
         print("0 - Sair do jogo")
         
         opcao = input(f"{nome} escolha sua ação:")
-        if(opcao == "1"):          
+        if dia > 10 :#10 dias definidos para maximo de dias jogáveis
+            print("Os 10 dias do simulador se encerraram, você concluiu com sucesso! Obrigado por jogar nosso jogo!")    
+            break
+        elif(opcao == "1"):          
             personagem.sujo = False
             relogio.avancaTempo(20)
         elif(opcao == "2"):
@@ -191,12 +228,12 @@ if(__name__ == "__main__"):
                 print(f"{nome}, não há comida em casa.")
             relogio.avancaTempo(15)
         elif(opcao == "3"):
-            if(personagem.dinheiro >= personagem.valorComida):
+            if(personagem.dinheiro >= personagem.valorComida):#Novo atributo da classe Personagem
                 personagem.dinheiro -= personagem.valorComida
                 cafe_da_manha = True
-            else:
+            else:          #inclusão de nome no print
                 print(f"{nome}, o café da manhã custa R${personagem.valorComida},00 reais, você não tem dinheiro suficiente.")
-            relogio.avancaTempo(5)
+            relogio.avancaTempo(5)                          #Novo atributo da classe Personagem
         elif(opcao == "4"):
             if(cafe_da_manha):
                 personagem.fome = False
@@ -213,7 +250,7 @@ if(__name__ == "__main__"):
                 print(f"{nome}, não tem remédio na sua casa")
             relogio.avancaTempo(5)
         elif(opcao == "6"):
-            if(personagem.dinheiro >= personagem.valorRemedios):
+            if(personagem.dinheiro >= personagem.valorRemedios):#Novo atributo da classe Personagem
                 casa.remedios += 10
                 personagem.dinheiro -= personagem.valorRemedios
                 relogio.avancaTempo(10)
@@ -222,27 +259,28 @@ if(__name__ == "__main__"):
                 relogio.avancaTempo(5)
         #inclusão de academia nas condicionais
         elif(opcao == "7"):
-            if(personagem.dinheiro >= 30):
-                personagem.disposicao = True
-                personagem.sujo = True
-                personagem.dinheiro -= 30
-                relogio.avancaTempo(25)
+            if(personagem.dinheiro >= 30):#Condição para 
+                personagem.disposicao = True#Personagem recebe o bônus de disposição
+                personagem.sujo = True#Personagem recebe 'True" ao atributo sujo
+                personagem.dinheiro -= 30#Desconto do valor do dis de academia
+                relogio.avancaTempo(25)#Custo de tempo para ir a academia
             else :
-                print('-=-=-')
+                print('-=-=-'*25)
                 print(f"{nome}o dia na academia custa R$30,00,você não tem dinheiro... Hoje você não conseguiu ir a academia, se sentiria mais disposto e poderia render melhor no trabalho!!! Uma pena!!!")
-                relogio.avancaTempo(10)
+                relogio.avancaTempo(10)#Custo de tempo por tentar ir a academia sem ter dinheiro suficiente
         elif(opcao == "8"):
-            adversidade = random.randint(1,100)
-            print(adversidade)
-            if adversidade <= 5  :
+            recebido = personagem.salario#recebido, definido antes para podeer executar os calculos das adversidades
+            adversidade = random.randint(1,100)#Random de 1 a 100 - entre 1:40 uma dentre 8 adversidades é executada
+            #print(adversidade)
+            if adversidade <= 5  :#Primeiro random, se o valor de adversidade for entre 1 e 5 resulta nesse random
                 print(f"""
                 {nome}, O transporte coletivo está em greve...
                 Você pode ir caminhando ou pedir um taxi(Caso tenha dinheiro suficiente)!
                 1 - Caminhar até o trabalho por 20 min.
                 2 - Solicitar um taxi, custo : R$25,00 e 05 min.
                 """)
-                escolha1 = int(input("O que fazer? (1 ou 2) :"))
-                if 1 > escolha1 > 2 :
+                escolha1 = int(input("O que fazer? (1 ou 2) :"))#Entrada de opção de ação dentreo da primeira adversidade
+                if escolha1 != 1 and escolha1 != 2 :#validação de escolha
                     print("Opção inválida, tente novamente")
                 elif escolha1 == 1 :
                     relogio.avancaTempo(20)
@@ -261,15 +299,16 @@ if(__name__ == "__main__"):
                 2 - Passar sem ajudar e ir direto para o trabalho.
                 """)
                 escolha2 = int(input("O que fazer? (1 ou 2) :"))
-                if 1 > escolha2 > 2 :
+                if escolha2 != 1 and escolha2 != 2 :
                     print("Opção inválida, tente novamente")
                 elif escolha2 == 1 :
-                    relogio.avancaTempo(5)
                     personagem.dinheiro -= 25
-                    print("Toda boa ação tem sua punição... você decisdiu ajudar o Sr. que por sua vez\nfurtou sua carteira, por sorte só haviam R$25,00 na carteira.")
+                    print("Toda boa ação tem sua punição... você decidiu ajudar o Sr. que por sua vez\nfurtou sua carteira, por sorte só haviam R$25,00 na carteira.")
                 else :
                     personagem.sujo = True
                     print("Você decidiu passar direto pelo Sr. e ao tentar passar apressado,\ntropeçou na calçada e caiu direto em uma poça...\nAgora você está sujo! (DEVE SER KARMA!!!")                    
+                relogio.avancaTempo(5)
+                
             elif adversidade <= 15  :
                 print(f"""
                 {nome}, 
@@ -279,7 +318,7 @@ if(__name__ == "__main__"):
                 2 - Correr para bater o cartão.
                 """)
                 escolha3 = int(input("O que fazer? (1 ou 2) :"))
-                if 1 > escolha3 > 2 :
+                if escolha3 != 1 and escolha3 != 2 :
                     print("Opção inválida, tente novamente")
                 elif escolha3 == 1 :
                     relogio.avancaTempo(10)
@@ -291,13 +330,13 @@ if(__name__ == "__main__"):
             elif adversidade <= 20 :
                 print(f"""
                 {nome}, 
-                No caminho para o trabalho você presencia uma criança que se emgasgou com uma bala...
+                No caminho para o trabalho você presencia uma criança que se engasgou com uma bala...
                 Você pode ajudá-la?
                 1 - Sim
                 2 - Não
                 """)
                 escolha4 = int(input("O que fazer? (1 ou 2) :"))
-                if 1 > escolha4 > 2 :
+                if escolha4 != 1 and escolha4 != 2 :
                     print("Opção inválida, tente novamente")
                 elif escolha4 == 1 :
                     relogio.avancaTempo(20)
@@ -318,7 +357,7 @@ if(__name__ == "__main__"):
                 2 - Pegar o envelope e entregar ao rapaz no banco
                 """)
                 escolha5 = int(input("O que fazer? (1 ou 2) :"))
-                if 1 > escolha5 > 2 :
+                if escolha5 != 1 and escolha5 != 2 :
                     print("Opção inválida, tente novamente")
                 elif escolha5 == 1 :
                     relogio.avancaTempo(5)
@@ -346,7 +385,7 @@ if(__name__ == "__main__"):
                     2 - Procurar por uma farmácia no caminho e comprar um medicamento!
                     """)
                     escolha6 = int(input("O que fazer? (1 ou 2) :"))
-                    if 1 > escolha6 > 2 :
+                    if escolha6 != 1 and escolha6 != 2 :
                         print("Opção inválida, tente novamente")
                     elif escolha6 == 1 :
                         personagem.sujo = True
@@ -358,7 +397,7 @@ if(__name__ == "__main__"):
             elif adversidade <= 35 :
                 print(f"""
                 {nome}, 
-                A caminho do trabalho, você vêdois cães brigando...
+                A caminho do trabalho, você vê dois cães brigando...
                 Você separa ou deixa brigar?
                 1 - Separar a briga dos cães.
                 2 - Seguir seu caminho.
@@ -375,7 +414,7 @@ if(__name__ == "__main__"):
                     """)
                 else :
                     relogio.avancaTempo(25)
-                    personagem.dinheiro -= 45
+                    personagem.dinheiro -= 35
                     personagem.sujo = True
                     print("""
                     Você não separou a briga dos cães...
@@ -434,11 +473,8 @@ if(__name__ == "__main__"):
             personagem.dormir()
             relogio = Relogio()
             dia+=1
-        elif(opcao == "0" or dia > 7):#adicionado contagem de dias para encerrar o jogo(or dia == 7)
-            if (opcao == "0"):
-                print("Obrigado por jogar!")
-            elif dia > 7 :
-                print("Os 7 dias do simulador se encerraram, você concluiu com sucesso! Obrigado por jogar nosso jogo!")
+        elif(opcao == "0"):#adicionado contagem de dias para encerrar o jogo(or dia == 7)
+            print("Obrigado por jogar!")
             break
         else:
             print("Opção inválida!")
